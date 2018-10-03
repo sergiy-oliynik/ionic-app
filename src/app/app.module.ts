@@ -12,6 +12,8 @@ import { LoginPage } from '../pages/login/login';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
+import { SQLite } from "@ionic-native/sqlite";
+import Database from "../database/Database";
 
 @NgModule({
   declarations: [
@@ -39,6 +41,9 @@ import { IonicStorageModule } from '@ionic/storage';
   providers: [
     StatusBar,
     SplashScreen,
+    Storage,
+    SQLite,
+    Database,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

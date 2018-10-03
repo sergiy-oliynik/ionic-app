@@ -2,30 +2,36 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 
 import {HomePage} from "../home/home";
-import {Storage} from "@ionic/storage";
+import Database from "../../database/Database";
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  registerCredentials = {username: '', password: ''};
+  registerCredentials = {
+    username: '',
+    password: ''
+  };
 
-  constructor(public navCtrl: NavController, public storage: Storage) {
+  constructor(public navCtrl: NavController, private db: Database) {
 
   }
 
   public login() {
     const {username, password} = this.registerCredentials;
 
-    this.storage.get('username').then(_username => {
-      if (username == _username) {
+    this.db.getUser(username).then((result) => {
+      const rows = result.rows;
 
-        this.storage.get('password').then(_password => {
-          if (password == _password) {
+      if (rows && rows.length > 0) {
+        const item = rows.item(0);
+
+        if (username == item.username) {
+          if (password == item.password) {
             this.navCtrl.setRoot(HomePage);
           }
-        });
+        }
       }
     });
   }
