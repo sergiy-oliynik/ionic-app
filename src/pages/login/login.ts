@@ -21,18 +21,19 @@ export class LoginPage {
   public login() {
     const {username, password} = this.registerCredentials;
 
-    console.log(this.db.getUser(username));
+    this.db.getUser(username).then((result) => {
+      const rows = result.rows;
 
-    // this.storage.get('username').then(_username => {
-    //   if (username == _username) {
+      if (rows && rows.length > 0) {
+        const item = rows.item(0);
 
-        // this.storage.get('password').then(_password => {
-        //   if (password == _password) {
-        //     this.navCtrl.setRoot(HomePage);
-        //   }
-        // });
-      // }
-    // });
+        if (username == item.username) {
+          if (password == item.password) {
+            this.navCtrl.setRoot(HomePage);
+          }
+        }
+      }
+    });
   }
 
 }

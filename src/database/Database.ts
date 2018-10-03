@@ -86,12 +86,7 @@ export default class Database {
   }
 
   getUser(userName: string) {
-    // const sql = `SELECT * FROM user WHERE ${userName} = username`;
-    const sql = `SELECT username FROM user`;
-    console.log(sql);
-
-    return this.db.executeSql(sql, []).then(result => {
-      console.log(JSON.stringify(result), result.rows.item(0));
-    });
+    const sql = `SELECT * FROM user WHERE username = ?`;
+    return this.db.executeSql(sql, [userName]);
   }
 }
