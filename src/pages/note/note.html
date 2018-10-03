@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-row>
+
+      <ion-col>
+        <button ion-button (click)="back()">Back</button>
+      </ion-col>
+
+      <ion-col>
+        <ion-title class="note-title">Note</ion-title>
+      </ion-col>
+
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="container">
+    <h2>Subject:</h2>
+    <div class="title-wrapper">
+      <ion-input type="text" [(ngModel)]="title" (ionChange)="onInputTitle($event)"></ion-input>
+    </div>
+
+    <h2>URI</h2>
+    <div class="uri-wrapper">
+      <ion-input type="text" [(ngModel)]="url" (ionChange)="onInputTitle($event)"></ion-input>
+    </div>
+
+    <h2>Note:</h2>
+    <div class="textarea-wrapper">
+      <ion-textarea type="text" [(ngModel)]="body" (ionChange)="onInputBody($event)"></ion-textarea>
+    </div>
+  </div>
+
+</ion-content>

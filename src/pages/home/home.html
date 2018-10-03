@@ -1,15 +1,27 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-searchbar
+      [(ngModel)]="myInput"
+      [showCancelButton]="shouldShowCancel"
+      (ionInput)="filterList($event)">
+    </ion-searchbar>
   </ion-navbar>
 </ion-header>
 
 <ion-content reorder="true" (ionItemReorder)="refreshList()" padding>
-  <ion-item-sliding *ngFor="let note of notes" #item>
-    <ion-item>
-      <p>{{note.title}}</p>
-    </ion-item>
-  </ion-item-sliding>
+  <ion-list *ngFor="let note of list">
+    <ion-item-sliding #item>
+
+      <ion-item class="note-wrapper" (click)="selectNote(note)">
+        <p>{{note.title}}</p>
+      </ion-item>
+
+      <ion-item-options side="right">
+        <button ion-button color="danger" (click)="deleteNote(note)">Delete</button>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
 </ion-content>
 
 <ion-footer>
