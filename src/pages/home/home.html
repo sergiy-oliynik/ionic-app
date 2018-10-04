@@ -10,14 +10,14 @@
 
 <ion-content reorder="true" (ionItemReorder)="refreshList()" padding>
   <ion-list *ngFor="let note of list">
-    <ion-item-sliding #item>
+    <ion-item-sliding class="note-sliding-wrapper" #item>
 
       <ion-item class="note-wrapper" (click)="selectNote(note)">
         <p>{{note.title}}</p>
       </ion-item>
 
       <ion-item-options side="right">
-        <button ion-button color="danger" (click)="deleteNote(note)">Delete</button>
+        <ion-icon color="danger" (click)="deleteNote(note)" name="trash"></ion-icon>
       </ion-item-options>
 
     </ion-item-sliding>
@@ -28,7 +28,7 @@
   <ion-toolbar>
     <ion-row class="footer-row-wrapper">
       <ion-col class="footer-btn-wrapper">
-        <button (click)="sortByNotes()" ion-button>Note</button>
+        <button (click)="sortByNotes()" ion-button>Name</button>
       </ion-col>
       <ion-col class="footer-btn-wrapper">
         <button (click)="sortByCreation()" ion-button>Create</button>
