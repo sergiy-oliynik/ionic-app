@@ -120,8 +120,8 @@ export default class Database {
 
   updateNote(note: Note) {
     const updated = Math.floor(Date.now() / 1000);
-    const query = "UPDATE note SET title=?, body=?, updated=? WHERE id = ?";
-    this.execute(query, [note.title, note.body, updated, note.id]).then(result => console.log(result));
+    const query = "UPDATE note SET title=?, body=?, url=?, updated=? WHERE id = ?";
+    this.execute(query, [note.title, note.body, note.url, updated, note.id]).then(result => console.log(result));
   }
 
   deleteNote(id: number) {

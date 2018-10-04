@@ -24,7 +24,12 @@
 
     <h2>URI</h2>
     <div class="uri-wrapper">
-      <ion-input type="text" [(ngModel)]="url" (ionChange)="onInputTitle($event)"></ion-input>
+      <ion-row>
+        <!--<ion-col>-->
+          <ion-input type="text" [(ngModel)]="url" (ionChange)="onInputTitle($event)"></ion-input>
+        <!--</ion-col>-->
+        <button ion-button (click)="showScanner()">QR</button>
+      </ion-row>
     </div>
 
     <h2>Note:</h2>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 import {AlertController, NavController, Platform} from 'ionic-angular';
 import Database from "../../database/Database";
 import Note from "../../models/Note";
@@ -22,14 +22,18 @@ export class HomePage {
   myInput: string = "";
   shouldShowCancel: boolean = true;
 
-  constructor(public navCtrl: NavController, private platform: Platform, private alertCtrl: AlertController, private db:Database) {
+  constructor(public navCtrl: NavController, private platform: Platform, private alertCtrl: AlertController, private db:Database, private ngZone: NgZone) {
     console.log("Home ctor");
     platform.ready().then(() => {
       console.log("Platform is ready");
 
       if (this.db.isReady) {
         console.log("db is already ready");
-        this.getNotes();
+
+        this.ngZone.run(() => {
+          this.getNotes();
+        });
+
         return;
       }
 

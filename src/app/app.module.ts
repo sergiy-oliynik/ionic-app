@@ -15,6 +15,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { SQLite } from "@ionic-native/sqlite";
 import Database from "../database/Database";
+import {QRScanner} from "@ionic-native/qr-scanner";
+import {ScannerPage} from "../pages/scanner/scanner";
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import Database from "../database/Database";
     // AboutPage,
     // ContactPage,
     HomePage,
+    ScannerPage,
     NotePage
     // TabsPage
   ],
@@ -38,6 +41,7 @@ import Database from "../database/Database";
     // AboutPage,
     // ContactPage,
     HomePage,
+    ScannerPage,
     NotePage
     // TabsPage
   ],
@@ -46,6 +50,7 @@ import Database from "../database/Database";
     SplashScreen,
     Storage,
     SQLite,
+    QRScanner,
     Database,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
