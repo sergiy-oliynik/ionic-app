@@ -86,15 +86,15 @@ export default class Database {
   createNotes() {
     console.log("Table user created");
 
-    const queryCreateNote = "CREATE TABLE IF NOT EXISTS `note` (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255), url VARCHAR(255), body TEXT, created INTEGER, updated INTEGER)";
+    const queryCreateNote = "CREATE TABLE IF NOT EXISTS `note` (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255), body TEXT, url VARCHAR(255), images TEXT, created INTEGER, updated INTEGER)";
 
     this.db
       .executeSql(queryCreateNote, [])
       .then((e) => {
-        const queryInsertNote = "INSERT INTO `note` (title,body,url,created,updated) VALUES " +
-          "('Note 1', 'This is first note', 'note1.com', 1538530067, 1538553067)," +
-          "('Note 2', 'This is second note', 'note2.com', 1538540067, 1538551067)," +
-          "('Note 3', 'This is third note', 'note1.com', 1538550067, 1538552067)";
+        const queryInsertNote = "INSERT INTO `note` (title,body,url,images,created,updated) VALUES " +
+          "('Note 1', 'This is first note', 'note1.com', '[]', 1538530067, 1538553067)," +
+          "('Note 2', 'This is second note', 'note2.com', '[]', 1538540067, 1538551067)," +
+          "('Note 3', 'This is third note', 'note1.com', '[]', 1538550067, 1538552067)";
 
         this.db
           .executeSql(queryInsertNote, [])
@@ -120,8 +120,8 @@ export default class Database {
 
   updateNote(note: Note) {
     const updated = Math.floor(Date.now() / 1000);
-    const query = "UPDATE note SET title=?, body=?, url=?, updated=? WHERE id = ?";
-    this.execute(query, [note.title, note.body, note.url, updated, note.id]).then(result => console.log(result));
+    const query = "UPDATE note SET title=?, body=?, url=?, images=?, updated=? WHERE id = ?";
+    this.execute(query, [note.title, note.body, note.url, note.imagesToString, updated, note.id]).then(result => console.log(result));
   }
 
   deleteNote(id: number) {

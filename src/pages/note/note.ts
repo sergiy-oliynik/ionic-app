@@ -3,8 +3,8 @@ import {NavController, NavParams} from "ionic-angular";
 import {HomePage} from "../home/home";
 import Note from "../../models/Note";
 import Database from "../../database/Database";
-import { QRScanner } from "@i onic-native/qr-scanner";
 import { ScannerPage } from "../scanner/scanner";
+import {Camera, CameraOptions} from "@ionic-native/camera";
 
 @Component({
   selector: 'note-home',
@@ -17,7 +17,7 @@ export class NotePage {
   url: string;
   body: string;
 
-  constructor(public navCtrl: NavController, private navParams: NavParams, private db: Database, private qrScanner: QRScanner) {
+  constructor(public navCtrl: NavController, private navParams: NavParams, private db: Database, private camera: Camera) {
     this.note = this.navParams.get("note");
     this.title = this.note.title;
     this.url = this.note.url;
@@ -31,7 +31,6 @@ export class NotePage {
   }
 
   back() {
-    console.log('back');
     this.navCtrl.setRoot(HomePage);
   }
 
@@ -39,6 +38,22 @@ export class NotePage {
     this.navCtrl.setRoot(ScannerPage, {
       note: this.note
     });
+  }
+
+  showCamera() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+
+    this.camera
+      .getPicture(options)
+      .then(imageData => {
+        this.note.images.push('data:image/jpeg;base64,' + imageData);
+        this.db.updateNote(this.note);
+      });
   }
 
   onInputTitle(event: any) {

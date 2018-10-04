@@ -17,6 +17,7 @@ import { SQLite } from "@ionic-native/sqlite";
 import Database from "../database/Database";
 import {QRScanner} from "@ionic-native/qr-scanner";
 import {ScannerPage} from "../pages/scanner/scanner";
+import {Camera} from "@ionic-native/camera";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {ScannerPage} from "../pages/scanner/scanner";
     Storage,
     SQLite,
     QRScanner,
+    Camera,
     Database,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
