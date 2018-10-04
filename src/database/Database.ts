@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {SQLite, SQLiteObject} from "@ionic-native/sqlite";
+import {Events} from "ionic-angular";
 
 @Injectable()
 export default class Database {
@@ -10,14 +11,23 @@ export default class Database {
     createFromLocation: 1
   };
 
-  constructor(private sqlite: SQLite) {
+  constructor(public events: Events, private sqlite: SQLite) {
     this.connect();
+  }
+
+  ready() {
+    this.events.publish("database:ready");
   }
 
   connect() {
     this.sqlite
       .create(this.options)
       .then(this.createUsers.bind(this));
+  }
+
+  execute(sql, params) {
+    return this.db.executeSql(sql, params)
+      .catch(e => console.log("Error", JSON.stringify(e)));
   }
 
   createUsers(db: SQLiteObject) {
@@ -50,6 +60,7 @@ export default class Database {
 
           if (item.users > 0) {
             console.log("Stop creating");
+            this.ready();
             return;
           }
         }
@@ -67,19 +78,22 @@ export default class Database {
   createNotes() {
     console.log("Table user created");
 
-    const queryCreateNote = "CREATE TABLE IF NOT EXISTS `note` (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255), body TEXT)";
+    const queryCreateNote = "CREATE TABLE IF NOT EXISTS `note` (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255), body TEXT, created INTEGER, updated INTEGER)";
 
     this.db
       .executeSql(queryCreateNote, [])
       .then((e) => {
-        const queryInsertNote = "INSERT INTO `note` (title,body) VALUES " +
-          "('Note 1', 'This is first note'), " +
-          "('Note 2', 'This is second note')," +
-          "('Note 3', 'This is third note')";
+        const queryInsertNote = "INSERT INTO `note` (title,body, created, updated) VALUES " +
+          "('Note 1', 'This is first note', 1538530067, 1538553067)," +
+          "('Note 2', 'This is second note', 1538540067, 1538551067)," +
+          "('Note 3', 'This is third note', 1538550067, 1538552067)";
 
         this.db
           .executeSql(queryInsertNote, [])
-          .then(() => console.log('Table note created'))
+          .then(() => {
+            console.log('Table note created');
+            this.ready();
+          })
           .catch(e => console.log("Error", JSON.stringify(e)));
       })
       .catch(e => console.log("Error", JSON.stringify(e)));
@@ -88,5 +102,11 @@ export default class Database {
   getUser(userName: string) {
     const sql = `SELECT * FROM user WHERE username = ?`;
     return this.db.executeSql(sql, [userName]);
+  }
+
+  getNotes() {
+    console.log("Getting notes");
+    const sql = "SELECT * FROM note";
+    return this.execute(sql, []);
   }
 }

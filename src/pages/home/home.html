@@ -4,14 +4,26 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content reorder="true" (ionItemReorder)="refreshList()" padding>
+  <ion-item-sliding *ngFor="let note of notes" #item>
+    <ion-item>
+      <p>{{note.title}}</p>
+    </ion-item>
+  </ion-item-sliding>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row class="footer-row-wrapper">
+      <ion-col class="footer-btn-wrapper">
+        <button (click)="sortByNotes()" ion-button>Note</button>
+      </ion-col>
+      <ion-col class="footer-btn-wrapper">
+        <button (click)="sortByCreation()" ion-button>Create</button>
+      </ion-col>
+      <ion-col class="footer-btn-wrapper">
+        <button (click)="sortByUpdation()" ion-button>Update</button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

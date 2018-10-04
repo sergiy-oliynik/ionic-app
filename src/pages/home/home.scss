@@ -1,3 +1,15 @@
-page-home {
+.footer-btn-wrapper {
+  text-align: center;
+}
 
+.footer-btn-wrapper:first-child {
+  text-align: left;
+}
+
+.footer-btn-wrapper:last-child {
+  text-align: right;
+}
+
+.footer-btn-wrapper button {
+  width: 85px;
 }
