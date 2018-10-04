@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {SQLite, SQLiteObject} from "@ionic-native/sqlite";
 import {Events} from "ionic-angular";
+import Note from "../models/Note";
 
 @Injectable()
 export default class Database {
@@ -11,11 +12,18 @@ export default class Database {
     createFromLocation: 1
   };
 
+  private _ready: boolean = false;
+
+  get isReady(): boolean {
+    return this._ready;
+  }
+
   constructor(public events: Events, private sqlite: SQLite) {
     this.connect();
   }
 
   ready() {
+    this._ready = true;
     this.events.publish("database:ready");
   }
 
@@ -78,15 +86,15 @@ export default class Database {
   createNotes() {
     console.log("Table user created");
 
-    const queryCreateNote = "CREATE TABLE IF NOT EXISTS `note` (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255), body TEXT, created INTEGER, updated INTEGER)";
+    const queryCreateNote = "CREATE TABLE IF NOT EXISTS `note` (id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(255), body TEXT, url VARCHAR(255), images TEXT, created INTEGER, updated INTEGER)";
 
     this.db
       .executeSql(queryCreateNote, [])
       .then((e) => {
-        const queryInsertNote = "INSERT INTO `note` (title,body, created, updated) VALUES " +
-          "('Note 1', 'This is first note', 1538530067, 1538553067)," +
-          "('Note 2', 'This is second note', 1538540067, 1538551067)," +
-          "('Note 3', 'This is third note', 1538550067, 1538552067)";
+        const queryInsertNote = "INSERT INTO `note` (title,body,url,images,created,updated) VALUES " +
+          "('Note 1', 'This is first note', 'note1.com', '[]', 1538530067, 1538553067)," +
+          "('Note 2', 'This is second note', 'note2.com', '[]', 1538540067, 1538551067)," +
+          "('Note 3', 'This is third note', 'note3.com', '[]', 1538550067, 1538552067)";
 
         this.db
           .executeSql(queryInsertNote, [])
@@ -106,7 +114,19 @@ export default class Database {
 
   getNotes() {
     console.log("Getting notes");
-    const sql = "SELECT * FROM note";
-    return this.execute(sql, []);
+    const query = "SELECT * FROM note";
+    return this.execute(query, []);
+  }
+
+  updateNote(note: Note) {
+    const updated = Math.floor(Date.now() / 1000);
+    const query = "UPDATE note SET title=?, body=?, url=?, images=?, updated=? WHERE id = ?";
+    this.execute(query, [note.title, note.body, note.url, note.imagesToString, updated, note.id]).then(result => console.log(result));
+  }
+
+  deleteNote(id: number) {
+    const query = "DELETE FROM note WHERE id = ?";
+    console.log(query);
+    this.execute(query, [id]).then(result => console.log(result));
   }
 }

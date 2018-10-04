@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import {NavController, Platform} from 'ionic-angular';
+import {Component, NgZone} from '@angular/core';
+import {AlertController, NavController, Platform} from 'ionic-angular';
 import Database from "../../database/Database";
 import Note from "../../models/Note";
+import {NotePage} from "../note/note";
 
 @Component({
   selector: 'page-home',
@@ -10,6 +11,7 @@ import Note from "../../models/Note";
 })
 export class HomePage {
   notes: Array<Note> = [];
+  list: Array<Note> = [];
 
   sortOptions = {
     noteAscending: true,
@@ -17,9 +19,23 @@ export class HomePage {
     updatedAscending: false
   };
 
-  constructor(public navCtrl: NavController, private platform: Platform, private db:Database) {
+  myInput: string = "";
+  shouldShowCancel: boolean = true;
+
+  constructor(public navCtrl: NavController, private platform: Platform, private alertCtrl: AlertController, private db:Database, private ngZone: NgZone) {
+    console.log("Home ctor");
     platform.ready().then(() => {
       console.log("Platform is ready");
+
+      if (this.db.isReady) {
+        console.log("db is already ready");
+
+        this.ngZone.run(() => {
+          this.getNotes();
+        });
+
+        return;
+      }
 
       this.db.events.subscribe("database:ready", () => {
         console.log("db is ready");
@@ -27,6 +43,10 @@ export class HomePage {
         this.getNotes();
       });
     });
+  }
+
+  resetList() {
+    this.list = this.notes.concat([]);
   }
 
   getNotes() {
@@ -39,16 +59,49 @@ export class HomePage {
           this.notes.push(new Note(rows.item(i)));
         }
       }
+
+      this.resetList();
+      this.refreshList();
     });
   }
 
-  refreshList() {}
+  refreshList() {
+    console.log("refresh list");
+  }
+
+  selectNote(note:Note) {
+    console.log("select: ", note.id);
+    this.navCtrl.setRoot(NotePage, {
+      note: note
+    });
+  }
+
+  deleteNote(note: Note) {
+    this.alertCtrl.create({
+      title: 'Danger!',
+      subTitle: `Do you want to delete ${note.title}?. You won't be able to cancel this action`,
+      buttons: [
+        {
+          text: "Delete",
+          handler: () => {
+            const index = this.notes.indexOf(note);
+
+            if (index != -1) {
+              this.notes.splice(index, 1);
+            }
+
+            this.resetList();
+            this.db.deleteNote(note.id)
+          }
+        }]
+    }).present();
+  }
 
   sortByNotes() {
     let { noteAscending } = this.sortOptions;
     const dir = noteAscending ? -1 : 1;
 
-    this.notes.sort((note1: Note, note2: Note) => {
+    this.list.sort((note1: Note, note2: Note) => {
       if (note1.title > note2.title) {
         return dir;
       } else if (note1.title < note2.title) {
@@ -65,7 +118,7 @@ export class HomePage {
   sortByCreation() {
     let { createdAscending } = this.sortOptions;
 
-    this.notes.sort((note1: Note, note2: Note) => {
+    this.list.sort((note1: Note, note2: Note) => {
       return createdAscending ? note1.created - note2.created : note2.created - note1.created;
     });
 
@@ -76,12 +129,31 @@ export class HomePage {
   sortByUpdation() {
     let { updatedAscending } = this.sortOptions;
 
-    this.notes.sort((note1: Note, note2: Note) => {
+    this.list.sort((note1: Note, note2: Note) => {
       return updatedAscending ? note1.updated - note2.updated : note2.updated - note1.updated;
     });
 
     this.sortOptions.updatedAscending = !updatedAscending;
     this.refreshList();
+  }
+
+  filterList(event) {
+    console.log(event);
+    const query = event.data;
+    console.log(query);
+
+    if (query) {
+      this.list = this.notes.filter(note => note.title.toLowerCase().includes(query.toLowerCase()));
+    } else {
+      this.resetList();
+    }
+
+    console.log(this.list);
+    this.refreshList();
+  }
+
+  onCancel(event) {
+    // console.log("onCancel:", event);
   }
 
 }

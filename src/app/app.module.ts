@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
+import { NotePage } from '../pages/note/note';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 
@@ -14,6 +15,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { SQLite } from "@ionic-native/sqlite";
 import Database from "../database/Database";
+import {QRScanner} from "@ionic-native/qr-scanner";
+import {ScannerPage} from "../pages/scanner/scanner";
+import {Camera} from "@ionic-native/camera";
+import {ImagePage} from "../pages/image/image";
 
 @NgModule({
   declarations: [
@@ -22,6 +27,9 @@ import Database from "../database/Database";
     // AboutPage,
     // ContactPage,
     HomePage,
+    ImagePage,
+    ScannerPage,
+    NotePage
     // TabsPage
   ],
   imports: [
@@ -36,6 +44,9 @@ import Database from "../database/Database";
     // AboutPage,
     // ContactPage,
     HomePage,
+    ScannerPage,
+    ImagePage,
+    NotePage
     // TabsPage
   ],
   providers: [
@@ -43,6 +54,8 @@ import Database from "../database/Database";
     SplashScreen,
     Storage,
     SQLite,
+    QRScanner,
+    Camera,
     Database,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
