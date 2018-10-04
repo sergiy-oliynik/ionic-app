@@ -6,7 +6,6 @@ import {NotePage} from "../note/note";
 
 @Component({
   selector: 'scanner-home',
-  styleUrls: ["scanner.scss"],
   templateUrl: 'scanner.html'
 })
 export class ScannerPage {

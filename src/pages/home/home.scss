@@ -1,23 +1,25 @@
-.note-wrapper p {
-  text-align: center;
-}
+page-home {
+  .note-wrapper p {
+    text-align: center;
+  }
 
-.note-sliding-wrapper ion-icon {
-  font-size: 40px;
-}
+  .note-sliding-wrapper ion-icon {
+    font-size: 40px;
+  }
 
-.footer-btn-wrapper {
-  text-align: center;
-}
+  .footer-btn-wrapper {
+    text-align: center;
+  }
 
-.footer-btn-wrapper:first-child {
-  text-align: left;
-}
+  .footer-btn-wrapper:first-child {
+    text-align: left;
+  }
 
-.footer-btn-wrapper:last-child {
-  text-align: right;
-}
+  .footer-btn-wrapper:last-child {
+    text-align: right;
+  }
 
-.footer-btn-wrapper button {
-  width: 85px;
+  .footer-btn-wrapper button {
+    width: 85px;
+  }
 }

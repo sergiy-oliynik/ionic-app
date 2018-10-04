@@ -6,7 +6,6 @@ import {NotePage} from "../note/note";
 
 @Component({
   selector: 'page-home',
-  styleUrls: ["home.scss"],
   templateUrl: 'home.html'
 })
 export class HomePage {
@@ -50,7 +49,16 @@ export class HomePage {
   }
 
   getNotes() {
-    this.db.getNotes().then(result => {
+    this.db.getNotes().then(data => {
+      // const data = JSON.parse(result);
+
+      for (let i = 0; i < data.length; i++) {
+        console.log(data[i]);
+        this.notes.push(new Note(data[i]));
+      }
+
+      console.log("");
+      /*
       const rows = result.rows;
 
       if (rows && rows.length > 0) {
@@ -59,6 +67,7 @@ export class HomePage {
           this.notes.push(new Note(rows.item(i)));
         }
       }
+      */
 
       this.resetList();
       this.refreshList();

@@ -21,8 +21,22 @@ export class LoginPage {
   public login() {
     const {username, password} = this.registerCredentials;
 
-    this.db.getUser(username.toLowerCase()).then((result) => {
-      const rows = result.rows;
+    this.db.getUser(username.toLowerCase()).then((data) => {
+      // console.log(result);
+      // const data = JSON.parse(result);
+      console.log(data);
+
+      const users = data.filter((user => {
+        return user.username == username && user.password == password;
+      }));
+
+      console.log(users);
+
+      if (users.length > 0) {
+        this.navCtrl.setRoot(HomePage);
+        return;
+      }
+      /*const rows = result.rows;
 
       if (rows && rows.length > 0) {
         const item = rows.item(0);
@@ -33,7 +47,7 @@ export class LoginPage {
             return;
           }
         }
-      }
+      }*/
 
       this.showError();
     });

@@ -5,7 +5,6 @@ import {NotePage} from "../note/note";
 
 @Component({
   selector: 'page-image',
-  styleUrls: ["image.scss"],
   templateUrl: 'image.html'
 })
 export class ImagePage {

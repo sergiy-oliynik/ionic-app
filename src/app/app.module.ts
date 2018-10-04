@@ -35,7 +35,10 @@ import {ImagePage} from "../pages/image/image";
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot({
+      name: 'default',
+      driverOrder: ['sqlite', 'websql']
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -53,7 +56,7 @@ import {ImagePage} from "../pages/image/image";
     StatusBar,
     SplashScreen,
     Storage,
-    SQLite,
+    // SQLite,
     QRScanner,
     Camera,
     Database,

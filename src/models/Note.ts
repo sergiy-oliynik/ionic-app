@@ -12,7 +12,7 @@ export default class Note {
     this.title = obj["title"];
     this.url = obj["url"];
     this.body = obj["body"];
-    this.images = JSON.parse(obj["images"]);
+    this.images = obj["images"].concat([]);
     this.created = obj["created"];
     this.updated = obj["updated"];
   }

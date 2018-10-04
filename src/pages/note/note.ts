@@ -9,7 +9,6 @@ import {ImagePage} from "../image/image";
 
 @Component({
   selector: 'page-note',
-  styleUrls: ["note.scss"],
   templateUrl: 'note.html'
 })
 export class NotePage {
