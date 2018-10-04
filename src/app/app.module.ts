@@ -18,6 +18,7 @@ import Database from "../database/Database";
 import {QRScanner} from "@ionic-native/qr-scanner";
 import {ScannerPage} from "../pages/scanner/scanner";
 import {Camera} from "@ionic-native/camera";
+import {ImagePage} from "../pages/image/image";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {Camera} from "@ionic-native/camera";
     // AboutPage,
     // ContactPage,
     HomePage,
+    ImagePage,
     ScannerPage,
     NotePage
     // TabsPage
@@ -43,6 +45,7 @@ import {Camera} from "@ionic-native/camera";
     // ContactPage,
     HomePage,
     ScannerPage,
+    ImagePage,
     NotePage
     // TabsPage
   ],

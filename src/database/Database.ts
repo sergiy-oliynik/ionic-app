@@ -94,7 +94,7 @@ export default class Database {
         const queryInsertNote = "INSERT INTO `note` (title,body,url,images,created,updated) VALUES " +
           "('Note 1', 'This is first note', 'note1.com', '[]', 1538530067, 1538553067)," +
           "('Note 2', 'This is second note', 'note2.com', '[]', 1538540067, 1538551067)," +
-          "('Note 3', 'This is third note', 'note1.com', '[]', 1538550067, 1538552067)";
+          "('Note 3', 'This is third note', 'note3.com', '[]', 1538550067, 1538552067)";
 
         this.db
           .executeSql(queryInsertNote, [])

@@ -25,7 +25,7 @@
     <div class="uri-wrapper">
       <ion-row>
         <!--<ion-col>-->
-          <ion-input type="text" [(ngModel)]="url" (ionChange)="onInputTitle($event)"></ion-input>
+          <ion-input type="text" [(ngModel)]="url" (ionChange)="onInputURI($event)"></ion-input>
         <!--</ion-col>-->
         <button ion-button (click)="showScanner()">QR</button>
       </ion-row>
@@ -40,7 +40,7 @@
   <ion-grid no-padding class="gallery">
     <ion-row>
       <ion-col col-4 *ngFor="let image of note.images">
-        <ion-img [src]="image" alt=""></ion-img>
+        <ion-img (touchstart)="onImageTouchStart(image);" (touchend)="onImageTouchEnd(image)" [src]="image" alt=""></ion-img>
       </ion-col>
     </ion-row>
   </ion-grid>
